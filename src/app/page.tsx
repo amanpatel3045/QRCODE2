@@ -1,43 +1,39 @@
 "use client"
 
 import { useEffect, useState } from 'react'
-import { useRouter } from "next/navigation"
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardHeader from '@mui/material/CardHeader'
-import IconButton from '@mui/material/IconButton'
 import Divider from '@mui/material/Divider'
-import AddReelItemModal from "@/components/AddReelItemModal"
+
 
 import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
 
 
 export default function Home() {
 
-  const [entryType, setEntryType] = useState<string>('');
+
   const [entryTypeCode, setEntryTypeCode] = useState<string>('');
 
-  const [entryNumber, setEntryNumber] = useState<string>('');
+
   const [entryNumberCode, setEntryNumberCode] = useState<string>('');
 
-  const [entryDate, setEntryDate] = useState<string>('');
+
   const [entryDateCode, setEntryDateCode] = useState<string>('');
 
-  const [transferType, setTransferType] = useState<string>('');
+
   const [transferTypeCode, setTransferTypeCode] = useState<string>('');
 
   const [barCode, setBarCode] = useState<string>('');
   const [qrCode, setQrCode] = useState<string>('');
 
-  const [isAddModalActive, setIsAddModalActive] = useState<boolean>(false)
-  const [isQRCodeScannerActive, setIsQRCodeScannerActive] = useState<boolean>(false)
+
   const [scanResult, setScanResult] = useState<string>('')
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    console.log("name", name);   // should print "entryNumber"
-    console.log("value", value); // should print the typed value
+
     if (name == 'entryType') {
       setEntryTypeCode(value)
     }
@@ -258,8 +254,7 @@ export default function Home() {
 
             <div className="md:ml-20">
               <button
-                // onClick={() => setIsAddModalActive(true)}
-                onClick={() => setIsQRCodeScannerActive(true)}
+             
                 className='md:px-2 cursor-pointer px-1 font-bold py-2 md:py-2 mt-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200'
               >
                 Reel Item
@@ -290,9 +285,7 @@ export default function Home() {
             </div>
 
 
-            <AddReelItemModal
-              isAddModalActive={isAddModalActive}
-            />
+         
 
 
 

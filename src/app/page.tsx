@@ -9,6 +9,11 @@ import Divider from '@mui/material/Divider'
 
 import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
 
+interface orderNoInterface {
+  success: boolean;
+  data: string;
+  error: string
+}
 
 export default function Home() {
 
@@ -29,6 +34,9 @@ export default function Home() {
 
 
   const [scanResult, setScanResult] = useState<string>('')
+
+  const [apiURL, setApiURL] = useState<string>('');
+  const [apiResData, setApiResData] = useState<string>('');
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -90,21 +98,26 @@ export default function Home() {
 
 
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const APIUrl = `http://localhost/BSA/recid/PlaceOrderNo_DMS?strTableName=${encodeURIComponent(scanResult)}&username=vishnu&companyid=5&StrV_Date=14/May/2025&StrV_Type=SODMS&Site_Code=HO&StrUserCode=vishnu&strRole=Employee`;
 
+        setApiURL(APIUrl); // Set the URL for debugging if you want
         console.log("API URL:", APIUrl);
 
         const res = await fetch(APIUrl);
 
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
 
-        const data = await res.json();
+        const data: orderNoInterface = await res.json(); // ✅ Parse and type the response
+
         console.log("API RESPONSE:", data);
+
+        setApiResData(data.data);
+
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -114,7 +127,6 @@ export default function Home() {
       fetchData();
     }
   }, [scanResult]);
-
 
 
   return (
@@ -298,6 +310,28 @@ export default function Home() {
               }
 
             </div>
+
+
+            <div className="border-4 border-solid border-blue-600 p-4 space-y-4">
+              <div>
+                <strong>API URL:</strong> {apiURL || 'No URL yet'}
+              </div>
+
+              <div>
+                <strong>API Response:</strong>{' '}
+                {apiResData ? (
+                  <pre className="bg-gray-100 p-2 rounded">
+                    {JSON.stringify(apiResData, null, 2)}
+                  </pre>
+                ) : (
+                  'No response yet'
+                )}
+              </div>
+            </div>
+
+
+
+
 
             <div className="flex justify-end md:mr-20 md:ml-20">
               <button

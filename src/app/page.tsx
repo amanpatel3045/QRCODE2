@@ -90,6 +90,33 @@ export default function Home() {
 
 
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const APIUrl = `http://localhost/BSA/recid/PlaceOrderNo_DMS?strTableName=${encodeURIComponent(scanResult)}&username=vishnu&companyid=5&StrV_Date=14/May/2025&StrV_Type=SODMS&Site_Code=HO&StrUserCode=vishnu&strRole=Employee`;
+
+        console.log("API URL:", APIUrl);
+
+        const res = await fetch(APIUrl);
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log("API RESPONSE:", data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if (scanResult) {
+      fetchData();
+    }
+  }, [scanResult]);
+
+
+
   return (
     <>
 
@@ -254,7 +281,7 @@ export default function Home() {
 
             <div className="md:ml-20">
               <button
-             
+
                 className='md:px-2 cursor-pointer px-1 font-bold py-2 md:py-2 mt-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200'
               >
                 Reel Item
@@ -272,9 +299,6 @@ export default function Home() {
 
             </div>
 
-
-
-
             <div className="flex justify-end md:mr-20 md:ml-20">
               <button
 
@@ -283,11 +307,6 @@ export default function Home() {
                 Save
               </button>
             </div>
-
-
-         
-
-
 
           </CardContent>
         </Card>
